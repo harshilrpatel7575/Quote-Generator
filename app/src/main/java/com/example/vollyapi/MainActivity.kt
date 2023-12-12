@@ -1,5 +1,8 @@
 package com.example.vollyapi
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -24,6 +27,12 @@ class MainActivity : AppCompatActivity() {
         binding.btnNewMeme.setOnClickListener{
             getMemeData()
         }
+
+        binding.btnCopy.setOnClickListener {
+            copyToClipboard(binding.memeTitle.text.toString())
+            Toast.makeText(this@MainActivity, "Quote copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun getMemeData() {
@@ -58,6 +67,12 @@ class MainActivity : AppCompatActivity() {
 
 
         queue.add(stringRequest)
+    }
+
+    private fun copyToClipboard(text: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Quote", text)
+        clipboard.setPrimaryClip(clip)
     }
 
 }
